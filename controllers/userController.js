@@ -34,14 +34,9 @@ exports.loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-
   if (!user) return ApiResponse.error(res, "Invalid credentials", 401);
 
-  if (!user.password.startsWith("$2"))
-    return ApiResponse.error(res, "Corrupted user data", 500);
-
   const match = await bcrypt.compare(password, user.password);
-
   if (!match) return ApiResponse.error(res, "Invalid credentials", 401);
 
   return ApiResponse.success(res, "Login successful", {
