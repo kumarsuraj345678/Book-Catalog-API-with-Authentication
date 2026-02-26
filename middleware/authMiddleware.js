@@ -7,7 +7,7 @@ const protect = (req, res, next) => {
   if (!authHeader)
     return ApiResponse.error(res, "Authorization token missing", 401);
 
-  if (!authHeader.startsWith("Bearer "))
+  if (!authHeader?.startsWith("Bearer "))
     return ApiResponse.error(res, "Invalid authorization format", 401);
 
   const token = authHeader.split(" ")[1];

@@ -21,7 +21,7 @@ const validateLogin = (req, res, next) => {
   next();
 };
 
-const validateBook = (req, res, next) => {
+const validateCreateBook = (req, res, next) => {
   const { title, author, genre, price } = req.body;
 
   if (!title || !author || !genre || price === undefined)
@@ -33,8 +33,25 @@ const validateBook = (req, res, next) => {
   next();
 };
 
+const validateUpdateBook = (req, res, next) => {
+  const { title, author, genre, price, inStock } = req.body;
+
+  if (
+    title === undefined &&
+    author === undefined &&
+    genre === undefined &&
+    price === undefined &&
+    inStock === undefined
+  ) {
+    return ApiResponse.error(res, "At least one field must be provided", 400);
+  }
+
+  next();
+};
+
 module.exports = {
   validateRegister,
   validateLogin,
-  validateBook
+  validateCreateBook,
+  validateUpdateBook
 };
